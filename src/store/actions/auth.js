@@ -48,15 +48,15 @@ export const auth = (email, password, isSignup) => {
 			returnSecureToken: true,
 		}
 		let url =
-			'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCZaOBqHjxqH0uP-H-s-uvCiWi4CJHPXIE'
+			'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDjV1IMzNjYHadXNjfbomHhOsQlFZQeFk4'
 		if (!isSignup) {
 			url =
-				'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCZaOBqHjxqH0uP-H-s-uvCiWi4CJHPXIE'
+				'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDjV1IMzNjYHadXNjfbomHhOsQlFZQeFk4'
 		}
 		axios
 			.post(url, authData)
 			.then((res) => {
-				console.log(res)
+				
 				//from current time + time the token will be valid for
 				//gteTime return the number of milliseconds
 				//so it's today's date in milliseconds plus time it will epire in
