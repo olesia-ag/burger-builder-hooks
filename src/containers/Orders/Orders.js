@@ -1,4 +1,4 @@
-import React, {useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Order from '../../components/Order/Order'
 import axiosIns from '../../axios-orders'
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
@@ -7,11 +7,10 @@ import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 
 const Orders = (props) => {
-
-
+	const { onFetchOrders } = props
 	useEffect(() => {
-		props.onFetchOrders(props.token, props.userId)
-	}, [])
+		onFetchOrders(props.token, props.userId)
+	}, [onFetchOrders])
 
 	let showOrders = <Spinner />
 	if (!props.loading && props.orders.length !== 0) {
@@ -23,11 +22,7 @@ const Orders = (props) => {
 					ingredients={order.ingredients}
 					price={order.price}
 					delete={() =>
-						props.onDeleteOrder(
-							order.id,
-							props.token,
-							props.orders
-						)
+						props.onDeleteOrder(order.id, props.token, props.orders)
 					}
 				/>
 			</div>

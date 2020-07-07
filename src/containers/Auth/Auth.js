@@ -43,12 +43,12 @@ const Auth = (props) => {
 	const [isSignup, setIsSignup] = useState(true)
 
 	//so that we don't go go to checkout if we're not building a burger:
-
+	const {building, authRedirectPath, onSetAuthRedirectPath} = props
 	useEffect(() => {
-		if (!props.building && props.authRedirectPath !== '/') {
-			props.onSetAuthRedirectPath()
+		if (!building && authRedirectPath !== '/') {
+			onSetAuthRedirectPath()
 		}
-	}, [])
+	}, [building, authRedirectPath, onSetAuthRedirectPath])
 
 	const inputChangedHandler = (event, controlName) => {
 		const updateControls = updateObject(controls, {
