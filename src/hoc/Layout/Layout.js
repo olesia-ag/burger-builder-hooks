@@ -8,11 +8,11 @@ import { connect } from 'react-redux'
 const Layout = (props) => {
 
 	const [showSideDrawer, switchShowSideDrawer] = useState(false)
-	function sideDrawerClosedHandler(){
+	const sideDrawerClosedHandler = () =>{
 		switchShowSideDrawer(false)
 	}
 
-	function sideDrawerToggleHandler () {
+	const sideDrawerToggleHandler = () => {
 		switchShowSideDrawer(!showSideDrawer)
 	}
 

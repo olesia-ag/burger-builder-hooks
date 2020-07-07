@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect } from 'react'
 import Order from '../../components/Order/Order'
 import axiosIns from '../../axios-orders'
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
@@ -6,57 +6,57 @@ import Spinner from '../../components/UI/Spinner/Spinner'
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 
-class Orders extends React.Component {
-	state = {
-		orders: [],
-		loading: true,
-	}
+const Orders = (props) => {
 
-	componentDidMount(){
-		this.props.onFetchOrders(this.props.token, this.props.userId)
-	}
 
-	render() {
-		let orders = <Spinner />
-		if(!this.props.loading && this.props.orders.length!==0){
-			orders = this.props.orders.map((order) => (
-				<div>
-					<Order
-						key={order.id}
-						id={order.id}
-						ingredients={order.ingredients}
-						price={order.price}
-						delete={()=>this.props.onDeleteOrder(order.id, this.props.token, this.props.orders)}
-					/>
-				</div>
-				
-				))
-			
-		}
-		if(!this.props.loading && this.props.orders.length===0){
-			orders = <p>Seems like you don't have any orders here!</p>
-		}
-		return (
+	useEffect(() => {
+		props.onFetchOrders(props.token, props.userId)
+	}, [])
+
+	let showOrders = <Spinner />
+	if (!props.loading && props.orders.length !== 0) {
+		showOrders = props.orders.map((order) => (
 			<div>
-				{orders}
+				<Order
+					key={order.id}
+					id={order.id}
+					ingredients={order.ingredients}
+					price={order.price}
+					delete={() =>
+						props.onDeleteOrder(
+							order.id,
+							props.token,
+							props.orders
+						)
+					}
+				/>
 			</div>
-		)
+		))
 	}
+	if (!props.loading && props.orders.length === 0) {
+		showOrders = <p>Seems like you don't have any orders here!</p>
+	}
+	return <div>{showOrders}</div>
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
 	return {
 		orders: state.order.orders,
 		loading: state.order.loading,
 		token: state.auth.idToken,
-		userId: state.auth.userId
+		userId: state.auth.userId,
 	}
 }
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
 	return {
-		onFetchOrders: (token, userId) => dispatch(actions.fetchOrders(token, userId)),
-		onDeleteOrder: (orderId, token, orders) => dispatch(actions.deleteOrder(orderId, token, orders)) 
+		onFetchOrders: (token, userId) =>
+			dispatch(actions.fetchOrders(token, userId)),
+		onDeleteOrder: (orderId, token, orders) =>
+			dispatch(actions.deleteOrder(orderId, token, orders)),
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axiosIns))
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(withErrorHandler(Orders, axiosIns))
